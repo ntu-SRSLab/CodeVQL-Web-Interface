@@ -1,21 +1,25 @@
 {
-	"name": "ModCon",
+	"name": "CodeVQL",
 	"version": "0.0.1",
 	"author": "NTU-SRS Lab",
-	"description": "Model based testing platforms for Smart Contracts",
+	"description": "The query langauge performing version-aware security analysis",
 	"keywords": [
 		"node.js",
 		"javascript"
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ntu-SRSLab/ModCon.git"
+		"url": "https://github.com/ntu-SRSLab/CodeVQL-Web-Interface"
 	},
 	"scripts": {
 		"start": "node index.js"
 	},
 	"license": "MIT",
 	"contributors": [
+		{
+			"name": "Mengyang Li",
+			"email": "lime0040@e.ntu.edu.sg"
+		},
 		{
 			"name": "Ye Liu",
 			"email": "liuye5@live.com"

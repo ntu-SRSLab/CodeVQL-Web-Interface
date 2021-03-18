@@ -23,7 +23,6 @@ const ServerResponse = "ServerResponse";
 
 io.on('connection', socket => {
    
-  // your server logic 
   function server(testedfile){
     // (invoke your command line tool and return the output)
     // output = shell.exec(...cmd)

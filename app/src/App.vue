@@ -5,9 +5,11 @@
     <p>Message from server: "{{socketMessage}}"</p>
     <button @click="pingServer()">Ping Server</button>
   </div> -->
-    <NavHeader  ></NavHeader>
-    <Tab> </Tab>
-    <BotFooter> </BotFooter>
+    <div class="container">
+      <NavHeader  ></NavHeader>
+      <Home> </Home>
+      <BotFooter> </BotFooter>
+    </div>
   </div>
 </template>
 
@@ -16,13 +18,13 @@
 // console.log(this.$socket);
 import BotFooter from "./components/BotFooter";
 import NavHeader from "./components/NavHeader";
-import Tab from "./components/Tab";
+import Home from "./components/tabs/Home";
 export default {
   name: "App",
   components: {
     BotFooter,
     NavHeader,
-    Tab
+    Home
   }
 };
 </script>
