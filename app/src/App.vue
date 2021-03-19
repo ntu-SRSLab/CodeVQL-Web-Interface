@@ -1,10 +1,5 @@
 <template>
   <div id="app">
-    <!-- <div class="container">
-    <p v-if="isConnected">We're connected to the server!</p>
-    <p>Message from server: "{{socketMessage}}"</p>
-    <button @click="pingServer()">Ping Server</button>
-  </div> -->
     <div class="container">
       <NavHeader  ></NavHeader>
       <Home> </Home>
@@ -32,6 +27,7 @@ export default {
 <style>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-size: 20px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

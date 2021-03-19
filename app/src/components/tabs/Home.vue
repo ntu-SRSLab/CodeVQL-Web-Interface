@@ -1,19 +1,27 @@
 <template>
-  <b-container >
-    <b-row>
-         <b-col>
-          <div class="container">
-                <b-form-file id="input-select-upload" v-model="files" 
-                  placeholder="Choose projects" drop-placeholder="Drop file here..."
-                  @change="onFileChange">
-                </b-form-file>
-          </div>
-        </b-col>
-        <b-col>          
-          <b-button variant="success"  class=" col-sm-2 " size="lg" @click="OnUploadAndRun">Run</b-button>
-         </b-col>
+  <b-container class="bv-example-row">
+    <b-row class="text-center">
+      <b-col  cols="8">
+          <b-input-group size="lg" prepend="Or input GitHub Repo Link Here:">
+            <b-form-input @change="OnLinkInput"></b-form-input>
+          </b-input-group>
+      </b-col>
+      <b-col>
+        <b-dropdown id="selectSampleRepo" :text="selectedRepo" :variant="selectedRepoColor" size="lg">
+          <b-dropdown-item @click="OnSampleRepoSelected(0)">None</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(1)">commons-io</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(2)">commons-csv</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(3)">commons-compress</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(4)">pdfbox</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(5)">flume</b-dropdown-item>
+        </b-dropdown>
+      </b-col>
+      <b-col>          
+        <b-button variant="success" size="lg" @click="OnUploadAndRun">Run</b-button>
+      </b-col>
     </b-row>
-    <codemirror class="mt-2"  v-model="model"  :options="cmOptions"  />
+    <codemirror class="mt-2"  v-model="model" :options="cmOptions" />
+    <div><b-table striped hover :items="results"></b-table></div>
   </b-container>
 </template>
 
@@ -56,6 +64,8 @@
   import 'codemirror/addon/fold/xml-fold.js'
 
   const ServerResponse = "ServerResponse";
+  const SampleRepoResponse = "SampleRepoResponse";
+  const RepoLinkResponse = "RepoLinkResponse";
   export default {
     name: "Home",
     data: function () {
@@ -79,74 +89,81 @@
             completeSingle: false
           }
         },
-         
-        object: {
-          title: 'How to do lists in Vue',
-          author: 'Jane Doe',
-          publishedAt: '2016-04-10',
-          hello: 'How to do lists in Vue',
-          world: 'Jane Doe',
-          int: '2016-04-10'
-        },
-        selected: [],
-        files: [],
-        // if upload complete
-        status_upload: false,
-        // if upload start
-        status_upload_start : false,
-        value : 0,
-
         model : "",
-       
+        repoLink : "",
+        repo : "",
+        selectedRepo : "Or Select Sample Repo",
+        selectedRepoColor : "",
+        results: [],
       };
     },
     created: function () {
-      // lisent server event
-     this.$socket.on(ServerResponse, function (data) {
-        alert(ServerResponse+ ": "+ data);
-     });
-     this.$uploader.addEventListener("complete", function (event) {
-        console.log(event.file.name, " has uploaded");
-      });
-      this.$uploader.addEventListener("progress", function(event){
-        console.log(event, "upload in progress");
-      });
-       this.$uploader.addEventListener("error", function(event){
-        console.log(event, "error");
-      });
-       this.$uploader.addEventListener("load", function(event){
-        console.log(event, "load");
-      });
+      var self = this;
+      this.$socket.on(ServerResponse, function() {
+        alert(ServerResponse+ ": socket connected");
+      }),
+      this.$socket.on(SampleRepoResponse, function(data) {
+        self.$data.results = data;
+      }),
+      this.$socket.on(RepoLinkResponse, function(data) {
+        self.$data.results = data;
+      })
     },
-
     methods: {
-      onFileChange(e) {
-        this.value = 0;
-        var files = e.target.files || e.dataTransfer.files;
-        console.log(files);
-        let reader = new FileReader();
-        reader.readAsText(files[0], "UTF-8");
-        reader.onload =  evt => {
-           this.model = evt.target.result;
-            // console.log(evt);
+      OnLinkInput(e) {
+        this.$data.repoLink = e;
+      },
+      OnSampleRepoSelected(e) {
+        switch (e) {
+          case 0:
+            this.$data.repo = "";
+            this.$data.selectedRepo = "Or Select Sample Repo";
+            this.$data.selectedRepoColor = "";
+            break;
+          case 1: 
+            this.$data.repo = "commons-io";
+            this.$data.selectedRepo = "commons-io";
+            this.$data.selectedRepoColor = "primary";
+            break; 
+          case 2: 
+            this.$data.repo = "commons-csv";
+            this.$data.selectedRepo = "commons-csv";
+            this.$data.selectedRepoColor = "primary";
+            break;
+          case 3: 
+            this.$data.repo = "commons-compress";
+            this.$data.selectedRepo = "commons-compress";
+            this.$data.selectedRepoColor = "primary";
+            break;
+          case 4: 
+            this.$data.repo = "pdfbox";
+            this.$data.selectedRepo = "pdfbox";
+            this.$data.selectedRepoColor = "primary";
+            break;
+          case 5: 
+            this.$data.repo = "flume";
+            this.$data.selectedRepo = "flume";
+            this.$data.selectedRepoColor = "primary";
+            break;
         }
-        reader.onerror = evt => {
-            console.error(evt);
-        }
-        
-        this.files = files;
-        this.status_upload = false;
-        this.status_upload_start = false;
       },
       OnUploadAndRun() {
-        this.$uploader.submitFiles([this.files]);
+        if (this.$data.repo != "" && this.$data.repoLink != "") {
+          alert("You can only input link or select a sample repo, not both");
+        } else if (this.$data.repo != "") {
+          if (this.$data.model == "") {
+            alert("You haven't write any query yet");
+          }
+          this.$socket.emit("sample repo", this.$data.selectedRepo, this.$data.model);
+          this.$data.repo = "";
+        } else {
+          if (this.$data.model == "") {
+            alert("You haven't write any query yet");
+          }
+          this.$socket.emit("repo link", this.$data.repoLink, this.$data.model);
+          this.$data.repoLink = "";
+        }
       }
-    },
-    computed: {
-   
-    },
-    props: {
-      msg: String
     }
   };
 </script>
@@ -170,7 +187,7 @@
               width:300%  !important; 
               height: 800px; border:thin
   }
-    div {
-        z-index: 1; /* integer */
-    }
+  div {
+       z-index: 1; /* integer */
+  }
 </style>
