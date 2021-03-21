@@ -22,6 +22,10 @@
     </b-row>
     <codemirror class="mt-2"  v-model="model" :options="cmOptions" />
     <div><b-table striped hover :items="results"></b-table></div>
+    <loading :active.sync="isLoading" 
+        :can-cancel="true" 
+        :on-cancel="onCancel"
+        :is-full-page="fullPage"></loading>
   </b-container>
 </template>
 
@@ -63,6 +67,10 @@
   import 'codemirror/addon/fold/markdown-fold.js'
   import 'codemirror/addon/fold/xml-fold.js'
 
+  // loading
+  import Loading from 'vue-loading-overlay';
+  import 'vue-loading-overlay/dist/vue-loading.css';
+
   const ServerResponse = "ServerResponse";
   const SampleRepoResponse = "SampleRepoResponse";
   const RepoLinkResponse = "RepoLinkResponse";
@@ -95,7 +103,12 @@
         selectedRepo : "Or Select Sample Repo",
         selectedRepoColor : "",
         results: [],
+        isLoading: false,
+        fullPage: true
       };
+    },
+    components: {
+      Loading,
     },
     created: function () {
       var self = this;
@@ -104,9 +117,11 @@
       }),
       this.$socket.on(SampleRepoResponse, function(data) {
         self.$data.results = data;
+        self.$data.isLoading = false;
       }),
       this.$socket.on(RepoLinkResponse, function(data) {
         self.$data.results = data;
+        self.$data.isLoading = false;
       })
     },
     methods: {
@@ -155,12 +170,14 @@
             alert("You haven't write any query yet");
           }
           this.$socket.emit("sample repo", this.$data.selectedRepo, this.$data.model);
+          this.$data.isLoading = true;
           this.$data.repo = "";
         } else {
           if (this.$data.model == "") {
             alert("You haven't write any query yet");
           }
           this.$socket.emit("repo link", this.$data.repoLink, this.$data.model);
+          this.$data.isLoading = true;
           this.$data.repoLink = "";
         }
       }
