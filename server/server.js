@@ -89,6 +89,21 @@ io.on('connection', (socket) => {
         requestCounter++;
         socket.emit(RepoLinkResponse, result);
       })
+
+      // Backup for demo: 
+      // cmd.run(`cat ${OutputPathPrefix + 0 + OutputPathResultPath}`, function(err, data, stderr) {
+      //   var result = [];
+      //   lines = data.split(/\n/);
+      //   for (var i = 0; i < lines.length; i++) {
+      //     fields = lines[i].split(/\t/);
+      //     if (fields.length != 2) {
+      //       continue;
+      //     }
+      //     result.push(new Record(fields[0], fields[1]));
+      //   }
+      //   requestCounter++;
+      //   socket.emit(RepoLinkResponse, result);
+      // })
     })
   });
 });

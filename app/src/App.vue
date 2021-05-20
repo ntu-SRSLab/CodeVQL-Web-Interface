@@ -2,24 +2,20 @@
   <div id="app">
     <div class="container">
       <NavHeader  ></NavHeader>
-      <Home> </Home>
+      <router-view></router-view>
       <BotFooter> </BotFooter>
     </div>
   </div>
 </template>
 
 <script>
-
-// console.log(this.$socket);
 import BotFooter from "./components/BotFooter";
 import NavHeader from "./components/NavHeader";
-import Home from "./components/tabs/Home";
 export default {
   name: "App",
   components: {
     BotFooter,
     NavHeader,
-    Home
   }
 };
 </script>

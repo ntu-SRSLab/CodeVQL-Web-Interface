@@ -188,7 +188,7 @@
 
 <style scoped lang="scss">
 // base style
-  @import '../../assets/codemirror.css';
+  @import '../assets/codemirror.css';
   // theme css
   
   .container /deep/ {
