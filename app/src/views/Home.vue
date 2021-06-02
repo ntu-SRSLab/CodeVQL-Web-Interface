@@ -160,6 +160,11 @@
             this.$data.selectedRepo = "flume";
             this.$data.selectedRepoColor = "primary";
             break;
+          case 6:
+            this.$data.repo = "commons-math";
+            this.$data.selectedRepo = "commons-math";
+            this.$data.selectedRepoColor = "primary";
+            break;
         }
       },
       OnUploadAndRun() {
