@@ -82,9 +82,10 @@ io.on('connection', (socket) => {
                   + CslicerFlag + " " + CslicerPath);
       // Step 3: Read result
       cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function(err, data, stderr) {
-        var result = [];
-        lines = data.split(/\n/);
-        for (var i = 0; i < lines.length; i++) {
+        let result = [];
+        let lines = data.split(/\n/);
+        let fields;
+        for (let i = 0; i < lines.length; i++) {
           fields = lines[i].split(/\t/);
           if (fields.length !== 2) {
             continue;
