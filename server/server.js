@@ -22,7 +22,7 @@ const RepoLinkResponse = "RepoLinkResponse";
 const BasePath = process.env.BASE_PATH ? process.env.BASE_PATH : "/Users/limengyang/Workspaces/FinalYearProject"
 const OutPath =  process.env.OUT_PATH ? process.env.OUT_PATH : "/Users/limengyang/Desktop"
 
-const CliExecutablePath = path.join(BasePath, "codeqltosouffle/automationtools_py/run.py");
+const CliExecutablePath = path.join(BasePath, "codeqltosouffle/scripts/run.py");
 
 const RepoPathFlag = "--repo_path";
 const DemoRepoPath = path.join(BasePath, "FYP-Challenge-Demo-Repo");
