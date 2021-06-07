@@ -22,7 +22,7 @@
               analysis won Distinguished Artifact Award and ACM Distinguished
               Paper Award at the 36th IEEE International Conference on Software
               Maintenance and Evolution (ICSME'20) and 30th International
-              Conference on Automated Software Engineering (ASE’15),
+              Conference on Automated Software Engineering (ASE'15),
               respectively. Dr. Li served as the PC Co-Chair of ICECCS'20 and
               ICFEM'19 Doctoral Symposium, Program Committee member of FSE'21,
               FASE'21, ASE'20, ICFEM'20, and ICDCS'20.

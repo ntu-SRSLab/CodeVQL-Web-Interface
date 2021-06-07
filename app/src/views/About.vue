@@ -19,8 +19,8 @@
         based on, the database that Code- VQL queries upon contains both program
         facts and the version a record belongs to. We name the version-aware
         database as the versionized factbase. Analysis like but not limited to
-        “what are the methods that are invoked in version N and but not invoked
-        in version M” can be found through a simple SQL-like query.
+        "what are the methods that are invoked in version N and but not invoked
+        in version M" can be found through a simple SQL-like query.
       </p>
       <p>For a visual illustration of CodeVQL, please refer to this video.</p>
     </b-container>
