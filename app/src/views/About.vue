@@ -11,8 +11,8 @@
         versions.
       </p>
       <p>
-        This project aims to provide a new query language - CodeVQL for code
-        security analysis on specified version(s) of a software program. CodeVQL
+        This project aims to provide a new query language - EvoMe for code
+        security analysis on specified version(s) of a software program. EvoMe
         does the high-level code analysis for structural code changes, and thus
         it can provide useful information for quality control purpose across
         different versions. Unlike databases that other program analysis tools
