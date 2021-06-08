@@ -1,7 +1,7 @@
 <template>
   <b-container class="bv-example-row">
     <b-container style="text-align: left">
-      <h1>About CodeVQL</h1>
+      <h1>About EvoMe</h1>
       <p>
         Numerous tools and techniques have been developed to perform program
         analysis on a particular version of the software. While the software
@@ -22,7 +22,7 @@
         "what are the methods that are invoked in version N and but not invoked
         in version M" can be found through a simple SQL-like query.
       </p>
-      <p>For a visual illustration of CodeVQL, please refer to this video.</p>
+      <p>For a visual illustration of EvoMe, please refer to this video.</p>
     </b-container>
     <iframe
       width="560"
