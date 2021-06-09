@@ -16,7 +16,7 @@ var requestCounter = 0;
 const ServerResponse = "ServerResponse";
 const RepoLinkResponse = "RepoLinkResponse";
 
-const CliExecutablePath = "/Users/limengyang/Workspaces/FinalYearProject/codeqltosouffle/automationtools_py/run.py";
+const CliExecutablePath = "/Users/limengyang/Workspaces/FinalYearProject/CodeVQL/scripts/run.py";
 
 const RepoPathFlag = "--repo_path";
 const RepoPathCommonBase = "/Users/limengyang/Workspaces/FinalYearProject/"
@@ -32,8 +32,8 @@ const QueryPathFlag = "--query_file_path";
 const QueryPathPrefix = "/Users/limengyang/Desktop/query/query";
 const QuerypathSuffix = ".txt";
 
-const CodeqltosouffleFlag = "--codeqltosouffle_path";
-const CodeqltosoufflePath = "/Users/limengyang/Workspaces/FinalYearProject/codeqltosouffle";
+const CodeVQLPathFlag = "--codevql_path";
+const CodeVQLPath = "/Users/limengyang/Workspaces/FinalYearProject/CodeVQL";
 
 const CslicerFlag = "--cslicer_path";
 const CslicerPath = "/Users/limengyang/Workspaces/FinalYearProject/gitslice/target/cslicer-1.0.0-jar-with-dependencies.jar";
@@ -59,7 +59,7 @@ io.on('connection', (socket) => {
                   + GitfactsFlag + " " + GitfactsPath + " "
                   + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
                   + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
-                  + CodeqltosouffleFlag + " " + CodeqltosoufflePath + " "
+                  + CodeVQLPathFlag + " " + CodeVQLPath + " "
                   + CslicerFlag + " " + CslicerPath);
       // Step 3: Read result
       cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function(err, data, stderr) {
@@ -88,7 +88,7 @@ io.on('connection', (socket) => {
                   + GitfactsFlag + " " + GitfactsPath + " "
                   + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
                   + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
-                  + CodeqltosouffleFlag + " " + CodeqltosoufflePath + " "
+                  + CodeVQLPathFlag + " " + CodeVQLPath + " "
                   + CslicerFlag + " " + CslicerPath);
       // Step 3: Read result
       cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function(err, data, stderr) {
