@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <a class="navbar-brand"><h2 style="margin-top: 0px">CodeVQL</h2></a>
+                <a class="navbar-brand"><h2 style="margin-top: 0px">EvoMe</h2></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->

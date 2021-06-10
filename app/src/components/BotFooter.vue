@@ -1,6 +1,6 @@
 <template>
     <footer id="footer">
-      <p class="text-center">© CodeVQL 2021, the query langauge performing version-aware security analysis</p>
+      <p class="text-center">© EvoMe 2021, the query langauge performing version-aware security analysis</p>
     </footer>
 </template>
 <script>
