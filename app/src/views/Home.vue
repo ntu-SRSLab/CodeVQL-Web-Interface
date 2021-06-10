@@ -9,11 +9,12 @@
       <b-col>
         <b-dropdown id="selectSampleRepo" :text="selectedRepo" :variant="selectedRepoColor" size="lg">
           <b-dropdown-item @click="OnSampleRepoSelected(0)">None</b-dropdown-item>
-          <b-dropdown-item @click="OnSampleRepoSelected(1)">commons-io</b-dropdown-item>
-          <b-dropdown-item @click="OnSampleRepoSelected(2)">commons-csv</b-dropdown-item>
-          <b-dropdown-item @click="OnSampleRepoSelected(3)">commons-compress</b-dropdown-item>
-          <b-dropdown-item @click="OnSampleRepoSelected(4)">pdfbox</b-dropdown-item>
-          <b-dropdown-item @click="OnSampleRepoSelected(5)">flume</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(1)">commons-csv</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(2)">commons-cli</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(3)">commons-io</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(4)">commons-compress</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(5)">commons-lang</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(6)">commons-math</b-dropdown-item>
         </b-dropdown>
       </b-col>
       <b-col>          
@@ -136,28 +137,33 @@
             this.$data.selectedRepoColor = "";
             break;
           case 1: 
-            this.$data.repo = "commons-io";
-            this.$data.selectedRepo = "commons-io";
-            this.$data.selectedRepoColor = "primary";
-            break; 
-          case 2: 
             this.$data.repo = "commons-csv";
             this.$data.selectedRepo = "commons-csv";
             this.$data.selectedRepoColor = "primary";
+            break; 
+          case 2: 
+            this.$data.repo = "commons-cli";
+            this.$data.selectedRepo = "commons-cli";
+            this.$data.selectedRepoColor = "primary";
             break;
           case 3: 
+            this.$data.repo = "commons-io";
+            this.$data.selectedRepo = "commons-io";
+            this.$data.selectedRepoColor = "primary";
+            break;
+          case 4: 
             this.$data.repo = "commons-compress";
             this.$data.selectedRepo = "commons-compress";
             this.$data.selectedRepoColor = "primary";
             break;
-          case 4: 
-            this.$data.repo = "pdfbox";
-            this.$data.selectedRepo = "pdfbox";
+          case 5: 
+            this.$data.repo = "commons-lang";
+            this.$data.selectedRepo = "commons-lang";
             this.$data.selectedRepoColor = "primary";
             break;
-          case 5: 
-            this.$data.repo = "flume";
-            this.$data.selectedRepo = "flume";
+          case 6:
+            this.$data.repo = "commons-math";
+            this.$data.selectedRepo = "commons-math";
             this.$data.selectedRepoColor = "primary";
             break;
         }
