@@ -1,6 +1,5 @@
-# CodeVQL-Web-Interface
+# EvoMe Web Interface
 This main branch is a template for creating a vue application with server support.
-
 
 
 ### Quick Started
