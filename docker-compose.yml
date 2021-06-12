@@ -1,0 +1,20 @@
+version: "3.3"
+services:
+  app:
+    build:
+      context: app
+      dockerfile: Dockerfile
+    container_name: webui_app
+    volumes:
+      - datavol:/data
+  server:
+    environment:
+      - PYTHONUNBUFFERED=1
+    build:
+      context: server
+      dockerfile: Dockerfile
+    container_name: webui_server
+    volumes:
+      - datavol:/data
+volumes:
+  datavol: {}
