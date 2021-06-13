@@ -6,7 +6,7 @@ const cmd = require('node-cmd');
 const csv = require('fast-csv');
 const path = require("path");
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'evome.facta.xyz');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -113,6 +113,7 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(3000, () => {
-  console.log('Listening on *:3000')
+const socket_port = process.env.SOCKET_SRV_PORT || 3000;
+http.listen(socket_port, () => {
+  console.log(`Listening on *:${socket_port}`)
 })

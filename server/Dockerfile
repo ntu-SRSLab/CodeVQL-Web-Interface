@@ -4,5 +4,6 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-EXPOSE 3000
+ENV SOCKET_SRV_PORT 80
+EXPOSE 80
 ENTRYPOINT ["node", "server.js"]
