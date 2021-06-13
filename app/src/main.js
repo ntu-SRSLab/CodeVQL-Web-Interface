@@ -5,9 +5,9 @@ import { BootstrapVue, IconsPlugin, CardPlugin } from 'bootstrap-vue'
 import SocketIO from "socket.io-client"
 import VueCodemirror from 'vue-codemirror'
 
-const server_domain = process.env.SOCKET_SERVER_ADDR ? process.env.SOCKET_SERVER_ADDR : "localhost";
-const port_number = process.env.SOCKET_PORT ? process.env.SOCKET_PORT : 3000;
-const SocketInstance = SocketIO(`https://${server_domain}:${port_number}`, {
+const server_domain = process.env.VUE_APP_SOCKET_ADDR || "localhost";
+const port_number = process.env.VUE_APP_SOCKET_PORT || 3000;
+const SocketInstance = SocketIO(`http://${server_domain}:${port_number}`, {
   reconnection: true,
   reconnectionDelay: 3000
 });
