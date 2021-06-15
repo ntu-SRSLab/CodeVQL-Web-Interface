@@ -7,14 +7,14 @@ WORKDIR /server
 COPY package*.json ./
 RUN npm install
 
+# copy contents and install souffle
 COPY . .
 RUN cp -r /server/evome-dep/prefix/* /
 
-# back to nodejs
+# set env and run
 ENV M2_HOME=/usr/share/maven
 ENV BASE_PATH=/server/evome-dep
 ENV OUT_PATH=/output
 ENV SOCKET_SRV_PORT=3000
-WORKDIR /server
 EXPOSE 3000
 ENTRYPOINT ["node", "server.js"]
