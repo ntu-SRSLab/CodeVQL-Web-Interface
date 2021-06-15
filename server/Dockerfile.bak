@@ -1,0 +1,19 @@
+FROM node:lts-alpine as build-stage
+WORKDIR /server
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN apk update && apk add openjdk8 openjdk8-jre maven python3
+ENV JAVA_HOME=/usr/lib/jvm/default-jvm
+ENV M2_HOME=/usr/share/java/maven-3
+ENV BASE_PATH=/tools
+ENV SOCKET_SRV_PORT=3000
+
+WORKDIR /tools
+COPY /opt/evome-dep .
+
+
+WORKDIR /server
+EXPOSE 3000
+ENTRYPOINT ["node", "server.js"]

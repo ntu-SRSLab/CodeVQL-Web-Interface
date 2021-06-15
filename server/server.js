@@ -58,12 +58,12 @@ io.on('connection', (socket) => {
       if (err) throw err;
       // Step 2: Upon write success, execute command
 
-      cmd.runSync("python3.7 " + CliExecutablePath + " "
+      cmd.runSync("python3 " + CliExecutablePath + " "
                   + RepoPathFlag + " " + path.join(BasePath, repo) + " "
                   + GitfactsFlag + " " + GitfactsPath + " "
                   + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
                   + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
-                  + CodeVQLPathFlag + " " + CodeVQLPath + " "
+                  + CodeqltosouffleFlag + " " + CodeqltosoufflePath + " "
                   + CslicerFlag + " " + CslicerPath);
       // Step 3: Read result
       cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function(err, data, stderr) {
@@ -92,7 +92,7 @@ io.on('connection', (socket) => {
                   + GitfactsFlag + " " + GitfactsPath + " "
                   + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
                   + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
-                  + CodeVQLPathFlag + " " + CodeVQLPath + " "
+                  + CodeqltosouffleFlag + " " + CodeqltosoufflePath + " "
                   + CslicerFlag + " " + CslicerPath);
       // Step 3: Read result
       cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function(err, data, stderr) {
