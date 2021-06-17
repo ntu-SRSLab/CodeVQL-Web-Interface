@@ -19,7 +19,7 @@ const SampleRepoResponse = "SampleRepoResponse";
 const RepoLinkResponse = "RepoLinkResponse";
 
 const BasePath = process.env.BASE_PATH ? process.env.BASE_PATH : "/Users/limengyang/Workspaces/FinalYearProject"
-const OutPath =  process.env.OUT_PATH ? process.env.OUT_PATH : "/Users/limengyang/Desktop"
+const OutPath = process.env.OUT_PATH ? process.env.OUT_PATH : "/Users/limengyang/Desktop"
 
 const CliExecutablePath = path.join(BasePath, "EvoMe/scripts/run.py");
 const ParitialCliExecutablePath = path.join(BasePath, 'EvoMe/scripts/run-partial.py')
@@ -32,7 +32,8 @@ const GitfactsPath = path.join(BasePath, "ext-gitfacts");
 
 const OutputPathFlag = "--output_path";
 const OutputPathPrefix = path.join(OutPath, "output");
-const OutputPathResultPath = "/output/query.csv"
+const OutputPathResultPath = "/output/query.csv";
+const OutputPathResultTableHeaderPath = "/rules/resultTableHeader.txt";
 
 const QueryPathFlag = "--query_file_path";
 const QueryPathPrefix = path.join(OutPath, "query/query");
@@ -46,11 +47,17 @@ const CslicerPath = path.join(BasePath, "gitslice/target/cslicer-1.0.0-jar-with-
 
 const ProgramFactPathFlag = "--program_fact_path";
 
-class Record {
-  constructor(selectedTest, version) {
-    this.selectedTest = selectedTest;
-    this.version = version;
-  }
+function generateTableHeader(_callback) {
+  cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultTableHeaderPath}`, function (err, data, stderr) {
+    var headers = [];
+    lines = data.split(/\n/);
+    for (var i = 0; i < lines.length; i++) {
+      if (lines[i] != "") {
+        headers.push(lines[i]);
+      }
+    }
+    _callback(headers);
+  })
 }
 
 io.on('connection', (socket) => {
@@ -58,54 +65,88 @@ io.on('connection', (socket) => {
 
   socket.on('sample repo', (repo, query) => {
     // Step 1: Write query locally
-    fs.writeFile(QueryPathPrefix + requestCounter + QuerypathSuffix, query, function(err) {
+    fs.writeFile(QueryPathPrefix + requestCounter + QuerypathSuffix, query, function (err) {
       if (err) throw err;
       // Step 2: Upon write success, execute command
       cmd.runSync("python3.7 " + ParitialCliExecutablePath + " "
-                  + RepoPathFlag + " " + path.join(BasePath, repo) + " "
-                  + GitfactsFlag + " " + GitfactsPath + " "
-                  + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
-                  + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
-                  + EvoMePathFlag + " " + EvoMePath + " "
-                  + CslicerFlag + " " + CslicerPath + " "
-                  + ProgramFactPathFlag + " " + path.join(BasePath, repo, ".facts/20-deps"));
+        + RepoPathFlag + " " + path.join(BasePath, repo) + " "
+        + GitfactsFlag + " " + GitfactsPath + " "
+        + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
+        + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
+        + EvoMePathFlag + " " + EvoMePath + " "
+        + CslicerFlag + " " + CslicerPath + " "
+        + ProgramFactPathFlag + " " + path.join(BasePath, repo, ".facts/20-deps"));
       // Step 3: Read result
-      cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function(err, data, stderr) {
-        var result = [];
-        lines = data.split(/\n/);
-        for (var i = 0; i < lines.length; i++) {
-          fields = lines[i].split(/\t/);
-          result.push(fields);
-        }
-        requestCounter++;
-        socket.emit(SampleRepoResponse, result);
-      })
+      generateTableHeader(function (headers) {
+        cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function (err, data, stderr) {
+          var results = [];
+          lines = data.split(/\n/);
+          for (var i = 0; i < lines.length; i++) {
+            if (lines[i] == "") {
+              break;
+            }
+            fields = lines[i].split(/\t/);
+            if (headers.length != fields.length) {
+              return err;
+            } else {
+              var result = '{';
+              for (var j = 0; j < fields.length; j++) {
+                if (j == fields.length - 1) {
+                  result += ('"' + headers[j] + '": "' + fields[j] + '"}');
+                } else {
+                  result += ('"' + headers[j] + '": "' + fields[j] + '", ');
+                }
+              }
+              results.push(JSON.parse(result));
+            }
+          }
+          requestCounter++;
+          socket.emit(SampleRepoResponse, results);
+        })
+      });
     })
   });
 
   socket.on('repo link', (repoLink, query) => {
     // Step 1: Write query locally
-    fs.writeFile(QueryPathPrefix + requestCounter + QuerypathSuffix, query, function(err) {
+    fs.writeFile(QueryPathPrefix + requestCounter + QuerypathSuffix, query, function (err) {
       if (err) throw err;
       // Step 2: Upon write success, execute command
       cmd.runSync("python3" + CliExecutablePath + " "
-                  + RepoPathFlag + " " + DemoRepoPath + " "
-                  + GitfactsFlag + " " + GitfactsPath + " "
-                  + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
-                  + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
-                  + EvoMePathFlag + " " + EvoMePath + " "
-                  + CslicerFlag + " " + CslicerPath);
+        + RepoPathFlag + " " + DemoRepoPath + " "
+        + GitfactsFlag + " " + GitfactsPath + " "
+        + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
+        + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
+        + EvoMePathFlag + " " + EvoMePath + " "
+        + CslicerFlag + " " + CslicerPath);
       // Step 3: Read result
-      cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function(err, data, stderr) {
-        let result = [];
-        lines = data.split(/\n/);
-        for (let i = 0; i < lines.length; i++) {
-          fields = lines[i].split(/\t/);
-          result.push(fields);
-        }
-        requestCounter++;
-        socket.emit(RepoLinkResponse, result);
-      })
+      generateTableHeader(function (headers) {
+        cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function (err, data, stderr) {
+          var results = [];
+          lines = data.split(/\n/);
+          for (var i = 0; i < lines.length; i++) {
+            if (lines[i] == "") {
+              break;
+            }
+            fields = lines[i].split(/\t/);
+            if (headers.length != fields.length) {
+              return err;
+            } else {
+              var result = '{';
+              for (var j = 0; j < fields.length; j++) {
+                if (j == fields.length - 1) {
+                  result += ('"' + headers[j] + '": "' + fields[j] + '"}');
+                } else {
+                  result += ('"' + headers[j] + '": "' + fields[j] + '", ');
+                }
+              }
+              results.push(JSON.parse(result));
+            }
+          }
+          requestCounter++;
+          socket.emit(RepoLinkResponse, results);
+        })
+      });
     })
   });
 });
