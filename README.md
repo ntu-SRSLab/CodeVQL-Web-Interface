@@ -5,7 +5,7 @@ This main branch is a template for creating a vue application with server suppor
 ### Quick Started
 1. Clone this project into the local machine
 ```bash
-git clone git@github.com:ntu-SRSLab/CodeVQL-Web-Interface.git
+git clone git@github.com:ntu-SRSLab/EvoMe-Web.git
 cd CodeVQL-Web-Interface
 ```
 2. Start server side
@@ -22,8 +22,6 @@ npm run serve     ### start vue
 ```
 Here, open http://localhost:8081/, and then browser a local file, you will have something like this.
 ![alt text](./images/vue-browserfile.png)
-When you click ''Run'' button, you will get:
-![alt text](./images/ServerResponse.png)
 
 If everything goes well, you can try to integrate your command line tool within the server side code.
 
@@ -53,5 +51,5 @@ server
 Please feel free to customize the vue application. Currently it seems a little simple.
 
 ### Contacts
-Please email to li0003ye@e.ntu.edu.sg if you have any question.
+Please email to lime0040@e.ntu.edu.sg if you have any question.
 
