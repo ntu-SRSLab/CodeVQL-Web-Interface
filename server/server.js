@@ -15,12 +15,14 @@ app.use((req, res, next) => {
 var requestCounter = 0;
 
 const ServerResponse = "ServerResponse";
+const SampleRepoResponse = "SampleRepoResponse";
 const RepoLinkResponse = "RepoLinkResponse";
 
 const BasePath = process.env.BASE_PATH ? process.env.BASE_PATH : "/Users/limengyang/Workspaces/FinalYearProject"
 const OutPath =  process.env.OUT_PATH ? process.env.OUT_PATH : "/Users/limengyang/Desktop"
 
-const CliExecutablePath = path.join(BasePath, "CodeVQL/scripts/run.py");
+const CliExecutablePath = path.join(BasePath, "EvoMe/scripts/run.py");
+const ParitialCliExecutablePath = path.join(BasePath, 'EvoMe/scripts/run-partial.py')
 
 const RepoPathFlag = "--repo_path";
 const DemoRepoPath = path.join(BasePath, "FYP-Challenge-Demo-Repo");
@@ -36,16 +38,18 @@ const QueryPathFlag = "--query_file_path";
 const QueryPathPrefix = path.join(OutPath, "query/query");
 const QuerypathSuffix = ".txt";
 
-const CodeqltosouffleFlag = "--codevql_path";
-const CodeqltosoufflePath = path.join(BasePath, "CodeVQL");
+const EvoMePathFlag = "--evome_path";
+const EvoMePath = path.join(BasePath, "EvoMe");
 
 const CslicerFlag = "--cslicer_path";
 const CslicerPath = path.join(BasePath, "gitslice/target/cslicer-1.0.0-jar-with-dependencies.jar");
 
+const ProgramFactPathFlag = "--program_fact_path";
+
 class Record {
-  constructor(version, methodName) {
+  constructor(selectedTest, version) {
+    this.selectedTest = selectedTest;
     this.version = version;
-    this.methodName = methodName;
   }
 }
 
@@ -57,27 +61,24 @@ io.on('connection', (socket) => {
     fs.writeFile(QueryPathPrefix + requestCounter + QuerypathSuffix, query, function(err) {
       if (err) throw err;
       // Step 2: Upon write success, execute command
-
-      cmd.runSync("python3.7 " + CliExecutablePath + " "
+      cmd.runSync("python3.7 " + ParitialCliExecutablePath + " "
                   + RepoPathFlag + " " + path.join(BasePath, repo) + " "
                   + GitfactsFlag + " " + GitfactsPath + " "
                   + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
                   + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
-                  + CodeVQLPathFlag + " " + CodeVQLPath + " "
-                  + CslicerFlag + " " + CslicerPath);
+                  + EvoMePathFlag + " " + EvoMePath + " "
+                  + CslicerFlag + " " + CslicerPath + " "
+                  + ProgramFactPathFlag + " " + path.join(BasePath, repo, ".facts/20-deps"));
       // Step 3: Read result
       cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function(err, data, stderr) {
         var result = [];
         lines = data.split(/\n/);
         for (var i = 0; i < lines.length; i++) {
           fields = lines[i].split(/\t/);
-          if (fields.length != 2) {
-            continue;
-          }
-          result.push(new Record(fields[0], fields[1]));
+          result.push(fields);
         }
         requestCounter++;
-        socket.emit(RepoLinkResponse, result);
+        socket.emit(SampleRepoResponse, result);
       })
     })
   });
@@ -92,19 +93,15 @@ io.on('connection', (socket) => {
                   + GitfactsFlag + " " + GitfactsPath + " "
                   + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
                   + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
-                  + CodeVQLPathFlag + " " + CodeVQLPath + " "
+                  + EvoMePathFlag + " " + EvoMePath + " "
                   + CslicerFlag + " " + CslicerPath);
       // Step 3: Read result
       cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function(err, data, stderr) {
         let result = [];
-        let lines = data.split(/\n/);
-        let fields;
+        lines = data.split(/\n/);
         for (let i = 0; i < lines.length; i++) {
           fields = lines[i].split(/\t/);
-          if (fields.length !== 2) {
-            continue;
-          }
-          result.push(new Record(fields[0], fields[1]));
+          result.push(fields);
         }
         requestCounter++;
         socket.emit(RepoLinkResponse, result);
