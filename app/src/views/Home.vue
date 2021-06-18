@@ -21,6 +21,24 @@
         <b-button variant="success" size="lg" @click="OnUploadAndRun">Run</b-button>
       </b-col>
     </b-row>
+    <table class="table table-hover" style="text-align: left">
+    <thead>
+      <tr>
+        <th>You may try some sample queries available as below</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr @click="HandleClick(0)">
+        <td>Regression test selection</td>
+      </tr>
+      <tr @click="HandleClick(1)">
+        <td>Find any method's callee changed </td>
+      </tr>
+      <tr @click="HandleClick(2)">
+        <td>Find any calls to a method that exists in certain versions but do not exist in other </td>
+      </tr>
+    </tbody>
+  </table>
     <codemirror class="mt-2"  v-model="model" :options="cmOptions" />
     <div><b-table striped hover :items="results"></b-table></div>
     <loading :active.sync="isLoading" 
@@ -71,6 +89,9 @@
   // loading
   import Loading from 'vue-loading-overlay';
   import 'vue-loading-overlay/dist/vue-loading.css';
+
+  // constant
+  import { RegressionTestSelectionQuery, CalleeChangedQuery, MethodUnusedQuery } from '../utils/constant.js'
 
   const ServerResponse = "ServerResponse";
   const SampleRepoResponse = "SampleRepoResponse";
@@ -126,6 +147,24 @@
       })
     },
     methods: {
+      HandleClick(index) {
+        if (index == 0) {
+          this.$data.model = RegressionTestSelectionQuery;
+          this.$data.repo = "commons-math";
+          this.$data.selectedRepo = "commons-math";
+          this.$data.selectedRepoColor = "primary";
+        } else if (index == 1) {
+          this.$data.model = CalleeChangedQuery;
+          this.$data.repo = "commons-math";
+          this.$data.selectedRepo = "commons-math";
+          this.$data.selectedRepoColor = "primary";
+        } else {
+          this.$data.model = MethodUnusedQuery;
+          this.$data.repo = "commons-math";
+          this.$data.selectedRepo = "commons-math";
+          this.$data.selectedRepoColor = "primary";
+        }
+      },
       OnLinkInput(e) {
         this.$data.repoLink = e;
       },
