@@ -70,7 +70,7 @@ io.on('connection', (socket) => {
     fs.writeFile(QueryPathPrefix + requestCounter + QuerypathSuffix, query, function (err) {
       if (err) throw err;
       // Step 2: Upon write success, execute command
-      cmd.runSync("python3 " + ParitialCliExecutablePath + " "
+      cmd.runSync("LOG_LEVEL=" + process.env.LOG_LEVEL + " python3 " + ParitialCliExecutablePath + " "
           + RepoPathFlag + " " + path.join(BasePath, repo) + " "
           + GitfactsFlag + " " + GitfactsPath + " "
           + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
@@ -116,7 +116,7 @@ io.on('connection', (socket) => {
     fs.writeFile(QueryPathPrefix + requestCounter + QuerypathSuffix, query, function (err) {
       if (err) throw err;
       // Step 2: Upon write success, execute command
-      cmd.runSync("python3 " + CliExecutablePath + " "
+      cmd.runSync("LOG_LEVEL=" + process.env.LOG_LEVEL + " python3 " + CliExecutablePath + " "
         + RepoPathFlag + " " + DemoRepoPath + " "
         + GitfactsFlag + " " + GitfactsPath + " "
         + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
