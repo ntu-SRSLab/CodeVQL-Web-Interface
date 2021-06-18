@@ -10,7 +10,7 @@ RUN npm install
 # copy contents, install souffle and build translator
 COPY . .
 WORKDIR /server/evome-dep
-RUN git clone https://github.com/souffle-lang/souffle
+RUN git clone --branch 2.0.2 --depth 1 https://github.com/souffle-lang/souffle
 RUN ./build-souffle.sh
 # RUN cp -r /server/evome-dep/prefix/* /
 # WORKDIR /server/evome-dep/EvoMe/translator
