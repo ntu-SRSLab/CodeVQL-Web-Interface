@@ -15,6 +15,8 @@ RUN cp -r /server/evome-dep/prefix/* /
 ENV M2_HOME=/usr/share/maven
 ENV BASE_PATH=/server/evome-dep
 ENV OUT_PATH=/output
+ENV LOG_LEVEL=info
+ENV NO_CLI_BANNER=1
 ENV SOCKET_SRV_PORT=3000
 EXPOSE 3000
 ENTRYPOINT ["node", "server.js"]

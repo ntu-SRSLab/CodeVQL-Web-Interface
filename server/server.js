@@ -21,8 +21,10 @@ const RepoLinkResponse = "RepoLinkResponse";
 const BasePath = process.env.BASE_PATH ? process.env.BASE_PATH : "/Users/limengyang/Workspaces/FinalYearProject"
 const OutPath = process.env.OUT_PATH ? process.env.OUT_PATH : "/Users/limengyang/Desktop"
 
-const CliExecutablePath = path.join(BasePath, "EvoMe/scripts/run.py");
-const ParitialCliExecutablePath = path.join(BasePath, 'EvoMe/scripts/run-partial.py')
+const PythonScriptsPath = path.join(BasePath, "EvoMe/scripts");
+const CliPartialRunBasename = "run_partial.py"
+const CliExecutablePath = path.join(PythonScriptsPath, "run.py");
+const ParitialCliExecutablePath = path.join(PythonScriptsPath, CliPartialRunBasename)
 
 const RepoPathFlag = "--repo_path";
 const DemoRepoPath = path.join(BasePath, "FYP-Challenge-Demo-Repo");
@@ -69,13 +71,15 @@ io.on('connection', (socket) => {
       if (err) throw err;
       // Step 2: Upon write success, execute command
       cmd.runSync("python3 " + ParitialCliExecutablePath + " "
-        + RepoPathFlag + " " + path.join(BasePath, repo) + " "
-        + GitfactsFlag + " " + GitfactsPath + " "
-        + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
-        + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
-        + EvoMePathFlag + " " + EvoMePath + " "
-        + CslicerFlag + " " + CslicerPath + " "
-        + ProgramFactPathFlag + " " + path.join(BasePath, repo, ".facts/20-deps"));
+          + RepoPathFlag + " " + path.join(BasePath, repo) + " "
+          + GitfactsFlag + " " + GitfactsPath + " "
+          + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
+          + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
+          + EvoMePathFlag + " " + EvoMePath + " "
+          + CslicerFlag + " " + CslicerPath + " "
+          + ProgramFactPathFlag + " " + path.join(BasePath, repo, ".facts/20-deps"),
+          function(err, data, stderr) {console.log(stderr)}
+      );
       // Step 3: Read result
       generateTableHeader(function (headers) {
         cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function (err, data, stderr) {
