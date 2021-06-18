@@ -13,7 +13,7 @@ COPY . .
 # RUN git clone --branch 2.0.2 --depth 1 https://github.com/souffle-lang/souffle
 # RUN ./build-souffle.sh
 RUN cp -r /server/evome-dep/prefix/* /
-RUN cp /server/evome-dep/libffi.so.7.1.0 /usr/lib/x86_64-linux-gnu/libffi.so.7
+# RUN cp /server/evome-dep/libffi.so.7.1.0 /usr/lib/x86_64-linux-gnu/libffi.so.7
 
 # WORKDIR /server/evome-dep/EvoMe/translator
 # RUN make
