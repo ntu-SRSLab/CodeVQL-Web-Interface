@@ -18,6 +18,7 @@ ENV OUT_PATH=/output
 RUN mkdir -p /output
 ENV LOG_LEVEL=info
 ENV NO_CLI_BANNER=1
+ENV REPO_STORAGE=/repo-storage
 ENV SOCKET_SRV_PORT=3000
 EXPOSE 3000
 ENTRYPOINT ["node", "server.js"]

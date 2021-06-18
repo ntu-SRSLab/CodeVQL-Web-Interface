@@ -28,6 +28,7 @@ const ParitialCliExecutablePath = path.join(PythonScriptsPath, CliPartialRunBase
 
 const RepoPathFlag = "--repo_path";
 const DemoRepoPath = path.join(BasePath, "FYP-Challenge-Demo-Repo");
+const RepoStorage = process.env.REPO_STORAGE || BasePath
 
 const GitfactsFlag = "--gitfacts_path";
 const GitfactsPath = path.join(BasePath, "ext-gitfacts");
@@ -71,7 +72,7 @@ io.on('connection', (socket) => {
       if (err) throw err;
       // Step 2: Upon write success, execute command
       cmd.runSync("LOG_LEVEL=" + process.env.LOG_LEVEL + " python3 " + ParitialCliExecutablePath + " "
-          + RepoPathFlag + " " + path.join(BasePath, repo) + " "
+          + RepoPathFlag + " " + path.join(RepoStorage, repo) + " "
           + GitfactsFlag + " " + GitfactsPath + " "
           + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
           + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
