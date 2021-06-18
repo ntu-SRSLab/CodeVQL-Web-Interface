@@ -10,6 +10,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="my-navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://github.com/ntu-SRSLab/EvoMe-Web">
+                  Github Repo <i class="fa fa-external-link"></i>
+                </a></li>
                 <li><router-link to="/">Home</router-link></li>
                 <li><router-link to="/language">Language</router-link></li>
                 <li><router-link to="/about">About</router-link></li>
