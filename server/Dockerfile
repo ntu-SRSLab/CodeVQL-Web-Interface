@@ -15,7 +15,7 @@ RUN cp -r /server/evome-dep/prefix/* /
 ENV M2_HOME=/usr/share/maven
 ENV BASE_PATH=/server/evome-dep
 ENV OUT_PATH=/output
-RUN mkdir -p /output
+RUN mkdir -p /output/query
 ENV LOG_LEVEL=info
 ENV NO_CLI_BANNER=1
 ENV REPO_STORAGE=/repo-storage
