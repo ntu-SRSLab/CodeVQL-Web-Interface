@@ -78,7 +78,7 @@ io.on('connection', (socket) => {
           + QueryPathFlag + " " + QueryPathPrefix + requestCounter + QuerypathSuffix + " "
           + EvoMePathFlag + " " + EvoMePath + " "
           + CslicerFlag + " " + CslicerPath + " "
-          + ProgramFactPathFlag + " " + path.join(BasePath, repo, ".facts/20-deps"),
+          + ProgramFactPathFlag + " " + path.join(RepoStorage, repo, ".facts/20-deps"),
           function(err, data, stderr) {console.log(stderr)}
       );
       // Step 3: Read result
