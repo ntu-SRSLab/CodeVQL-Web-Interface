@@ -5,6 +5,8 @@ RUN npm install
 
 COPY . .
 RUN npm run build
+# temp hack for a css issue
+RUN ./hack_codeline_margin.sh
 
 FROM nginx as production-stage
 RUN mkdir /app
