@@ -2,7 +2,7 @@ FROM maven:3.8.1-openjdk-8 as build-stage
 
 # install node and python
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt update && apt install -y nodejs python3 mcpp
+RUN apt update && apt install -y nodejs python3 mcpp libgomp1
 WORKDIR /server
 COPY package*.json ./
 RUN npm install
