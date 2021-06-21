@@ -15,6 +15,7 @@
           <b-dropdown-item @click="OnSampleRepoSelected(4)">commons-compress</b-dropdown-item>
           <b-dropdown-item @click="OnSampleRepoSelected(5)">commons-lang</b-dropdown-item>
           <b-dropdown-item @click="OnSampleRepoSelected(6)">commons-math</b-dropdown-item>
+          <b-dropdown-item @click="OnSampleRepoSelected(7)">EvoMe-Demo-Repo</b-dropdown-item>
         </b-dropdown>
       </b-col>
       <b-col>          
@@ -32,14 +33,14 @@
         <td>Regression test selection</td>
       </tr>
       <tr @click="HandleClick(1)">
-        <td>Find any method's callee changed </td>
+        <td>Find new callee to any method </td>
       </tr>
       <tr @click="HandleClick(2)">
         <td>Find any calls to a method that exists in certain versions but do not exist in other </td>
       </tr>
     </tbody>
   </table>
-    <codemirror class="mt-2"  v-model="model" :options="cmOptions" />
+    <div style="margin-bottom: 0rem"><codemirror class="mt-2"  v-model="model" :options="cmOptions" /></div>
     <div><b-table striped hover :items="results"></b-table></div>
     <loading :active.sync="isLoading" 
         :can-cancel="true" 
@@ -155,13 +156,13 @@
           this.$data.selectedRepoColor = "primary";
         } else if (index == 1) {
           this.$data.model = CalleeChangedQuery;
-          this.$data.repo = "commons-math";
-          this.$data.selectedRepo = "commons-math";
+          this.$data.repo = "EvoMe-Demo-Repo";
+          this.$data.selectedRepo = "EvoMe-Demo-Repo";
           this.$data.selectedRepoColor = "primary";
         } else {
           this.$data.model = MethodUnusedQuery;
-          this.$data.repo = "commons-math";
-          this.$data.selectedRepo = "commons-math";
+          this.$data.repo = "EvoMe-Demo-Repo";
+          this.$data.selectedRepo = "EvoMe-Demo-Repo";
           this.$data.selectedRepoColor = "primary";
         }
       },
@@ -205,6 +206,10 @@
             this.$data.selectedRepo = "commons-math";
             this.$data.selectedRepoColor = "primary";
             break;
+          case 7: 
+            this.$data.repo = "EvoMe-Demo-Repo";
+            this.$data.selectedRepo = "EvoMe-Demo-Repo";
+            this.$data.selectedRepoColor = "primary";
         }
       },
       OnUploadAndRun() {
