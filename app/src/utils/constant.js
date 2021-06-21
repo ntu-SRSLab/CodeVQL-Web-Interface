@@ -33,8 +33,8 @@ export const MethodUnusedQuery = `import java
 
 from MethodAccess accessV1, MethodAccess accessV2, Method method
 range accessV1 @ v1, accessV2 @ v2, method @ v3
-where exists (accessV1 that accessV1.getCaller()=method.fqn() and method.getName() = "*")
-and not exist (accessV2 that accessV2.getCaller()=method.fqn() and method.getName() = "*")
+where exists (accessV1 that accessV1.getCallee()=method.fqn() and method.getName() = "*")
+and not exist (accessV2 that accessV2.getCallee()=method.fqn() and method.getName() = "*")
 select method
 
 define v1 "32579f9d4e913a9776a53904b996a654c3ca8322"
