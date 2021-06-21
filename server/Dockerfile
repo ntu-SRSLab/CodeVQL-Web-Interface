@@ -2,7 +2,7 @@ FROM maven:3.8.1-openjdk-8 as build-stage
 
 # install node and python
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt update && apt install -y nodejs python3 mcpp libgomp1
+RUN apt update && apt install -y nodejs python3 mcpp libgomp1 make g++ flex bison
 WORKDIR /server
 COPY package*.json ./
 RUN npm install
@@ -15,8 +15,9 @@ COPY . .
 RUN cp -r /server/evome-dep/prefix/* /
 # RUN cp /server/evome-dep/libffi.so.7.1.0 /usr/lib/x86_64-linux-gnu/libffi.so.7
 
-# WORKDIR /server/evome-dep/EvoMe/translator
-# RUN make
+# build translator
+WORKDIR /server/evome-dep/EvoMe/translator
+RUN make
 
 # set env and run
 WORKDIR /server
