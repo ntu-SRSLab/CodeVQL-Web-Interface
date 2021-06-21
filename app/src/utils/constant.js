@@ -18,26 +18,26 @@ export const CalleeChangedQuery = `import java
 
 from MethodAccess old, MethodAccess new, Method method
 range old @ v1, new @ v2, method @ v3
-where exists (old, new, method that 
+where exists (old, new, method that
               old.getCaller() != new.getCaller() and
-              old.getCallee() = method.fqn() and method.getName() = "getAuth" and method.getClassName() = "io.fabric8.maven.docker.access.AuthConfig" and
-              new.getCallee() = method.fqn() and method.getName() = "getAuth" and method.getClassName() = "io.fabric8.maven.docker.access.AuthConfig")
+              old.getCallee() = method.fqn() and method.getName() = "getArea" and method.getClassName() = "src.main.java.model.Circle" and
+              new.getCallee() = method.fqn() and method.getName() = "getArea" and method.getClassName() = "src.main.java.model.Circle")
 select new
 
-define v1 ("e7fefdaddd99294d5842ef8c5b16070ce230d29e~1".."e7fefdaddd99294d5842ef8c5b16070ce230d29e~11")
-define v2 "e7fefdaddd99294d5842ef8c5b16070ce230d29e"
-define v3 ("e7fefdaddd99294d5842ef8c5b16070ce230d29e".."e7fefdaddd99294d5842ef8c5b16070ce230d29e~11")
+define v1 "df03a3fe2454f15abc652adb9b0e50d7238291ae"
+define v2 "32579f9d4e913a9776a53904b996a654c3ca8322"
+define v3 ("df03a3fe2454f15abc652adb9b0e50d7238291ae", "32579f9d4e913a9776a53904b996a654c3ca8322")
 `;
 
 export const MethodUnusedQuery = `import java
 
 from MethodAccess accessV1, MethodAccess accessV2, Method method
 range accessV1 @ v1, accessV2 @ v2, method @ v3
-where exists (accessV1 that accessV1.getCaller()=method.fqn() and method.getName() = "*")
-and not exist (accessV2 that accessV2.getCaller()=method.fqn() and method.getName() = "*")
+where exists (accessV1 that accessV1.getCallee()=method.fqn() and method.getName() = "*")
+and not exist (accessV2 that accessV2.getCallee()=method.fqn() and method.getName() = "*")
 select method
 
-define v1 ("e7fefdaddd99294d5842ef8c5b16070ce230d29e~1".."e7fefdaddd99294d5842ef8c5b16070ce230d29e~5")
-define v2 "e7fefdaddd99294d5842ef8c5b16070ce230d29e"
-define v3 ("e7fefdaddd99294d5842ef8c5b16070ce230d29e".."e7fefdaddd99294d5842ef8c5b16070ce230d29e~5")
+define v1 "32579f9d4e913a9776a53904b996a654c3ca8322"
+define v2 "f8e32c64a58c1b6d00abfe9398efe045fb5522ea"
+define v3 ("32579f9d4e913a9776a53904b996a654c3ca8322", "f8e32c64a58c1b6d00abfe9398efe045fb5522ea")
 `;
