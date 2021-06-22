@@ -1,6 +1,10 @@
 # EvoMe Web Interface
-This main branch is a template for creating a vue application with server support.
 
+This repository hosts the front-end code of EvoMe. The back-end code of EvoMe can be found at: 
+<https://github.com/LiMengyang990726/EvoMe>.
+
+A closely related project is [Diffbase](https://github.com/d-fact/eval-runner-docker), which
+provides the underlying fact extraction and querying infrastructure.
 
 ### Quick Started
 1. Clone this project into the local machine
