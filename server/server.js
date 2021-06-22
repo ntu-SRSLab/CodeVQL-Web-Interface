@@ -71,7 +71,7 @@ io.on('connection', (socket) => {
     fs.writeFile(QueryPathPrefix + requestCounter + QuerypathSuffix, query, function (err) {
       if (err) throw err;
       // Step 2: Upon write success, execute command
-      cmd.runSync("LOG_LEVEL=" + process.env.LOG_LEVEL + " python3 " + ParitialCliExecutablePath + " "
+      cmd.run("LOG_LEVEL=" + process.env.LOG_LEVEL + " python3 " + ParitialCliExecutablePath + " "
           + RepoPathFlag + " " + path.join(RepoStorage, repo) + " "
           + GitfactsFlag + " " + GitfactsPath + " "
           + OutputPathFlag + " " + OutputPathPrefix + requestCounter + " "
@@ -79,36 +79,39 @@ io.on('connection', (socket) => {
           + EvoMePathFlag + " " + EvoMePath + " "
           + CslicerFlag + " " + CslicerPath + " "
           + ProgramFactPathFlag + " " + path.join(RepoStorage, repo, ".facts/20-deps"),
-          function(err, data, stderr) {console.log(stderr)}
-      );
-      // Step 3: Read result
-      generateTableHeader(function (headers) {
-        cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function (err, data, stderr) {
-          var results = [];
-          lines = data.split(/\n/);
-          for (var i = 0; i < lines.length; i++) {
-            if (lines[i] == "") {
-              break;
-            }
-            fields = lines[i].split(/\t/);
-            if (headers.length != fields.length) {
-              return err;
-            } else {
-              var result = '{';
-              for (var j = 0; j < fields.length; j++) {
-                if (j == fields.length - 1) {
-                  result += ('"' + headers[j] + '": "' + fields[j] + '"}');
-                } else {
-                  result += ('"' + headers[j] + '": "' + fields[j] + '", ');
+          function(err, data, stderr) {
+            if (err) console.log(stderr);
+            // Step 3: Read result
+            generateTableHeader(function (headers) {
+              cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function (err, data, stderr) {
+                let results = [];
+                let lines = data.split(/\n/);
+                let fields;
+                for (let i = 0; i < lines.length; i++) {
+                  if (lines[i] === "") {
+                    break;
+                  }
+                  fields = lines[i].split(/\t/);
+                  if (headers.length !== fields.length) {
+                    return err;
+                  } else {
+                    let result = '{';
+                    for (let j = 0; j < fields.length; j++) {
+                      if (j === fields.length - 1) {
+                        result += ('"' + headers[j] + '": "' + fields[j] + '"}');
+                      } else {
+                        result += ('"' + headers[j] + '": "' + fields[j] + '", ');
+                      }
+                    }
+                    results.push(JSON.parse(result));
+                  }
                 }
-              }
-              results.push(JSON.parse(result));
-            }
-          }
-          requestCounter++;
-          socket.emit(SampleRepoResponse, results);
-        })
-      });
+                requestCounter++;
+                socket.emit(SampleRepoResponse, results);
+              })
+            });
+      }
+      );
     })
   });
 
