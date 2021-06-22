@@ -17,7 +17,7 @@ RUN cp -r /server/evome-dep/prefix/* /
 
 # build translator
 WORKDIR /server/evome-dep/EvoMe/translator
-RUN make
+RUN make clean && make
 
 # set env and run
 WORKDIR /server
