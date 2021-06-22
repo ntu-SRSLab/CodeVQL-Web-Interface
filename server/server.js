@@ -80,7 +80,7 @@ io.on('connection', (socket) => {
           + CslicerFlag + " " + CslicerPath + " "
           + ProgramFactPathFlag + " " + path.join(RepoStorage, repo, ".facts/20-deps"),
           function(err, data, stderr) {
-            if (err) console.log(stderr);
+            if (stderr) console.log(stderr);
             // Step 3: Read result
             generateTableHeader(function (headers) {
               cmd.run(`cat ${OutputPathPrefix + requestCounter + OutputPathResultPath}`, function (err, data, stderr) {
@@ -110,7 +110,7 @@ io.on('connection', (socket) => {
                 socket.emit(SampleRepoResponse, results);
               })
             });
-      }
+          }
       );
     })
   });
